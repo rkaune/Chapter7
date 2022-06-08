@@ -1,6 +1,6 @@
 /*
     Kaune
-    May 25, 2022
+    June 8, 2022
 */
 
 using System.Collections;
@@ -11,9 +11,18 @@ using UnityEngine;
 [AddComponentMenu("Control Script/FPS Input")]
 public class FPSInput : MonoBehaviour
 {
+    public const float baseSpeed = 6.0f;
+
     public float speed = 6.0f;
     private CharacterController charController;
     public float gravity = -9.8f;
+
+    void OnEnable() {
+		Messenger<float>.AddListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+	}
+	void OnDisable() {
+		Messenger<float>.RemoveListener(GameEvent.SPEED_CHANGED, OnSpeedChanged);
+	}
 
     // Start is called before the first frame update
     void Start()
@@ -35,4 +44,8 @@ public class FPSInput : MonoBehaviour
         movement = transform.TransformDirection(movement);
         charController.Move(movement);
     }
+
+    private void OnSpeedChanged(float value) {
+		speed = baseSpeed * value;
+	}
 }

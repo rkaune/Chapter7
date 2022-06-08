@@ -1,6 +1,6 @@
 /*
     Kaune
-    June 6, 2022
+    June 8, 2022
 */
 
 using System.Collections;
@@ -41,6 +41,7 @@ public class RayShooter : MonoBehaviour
                 if (target != null) {
                     //Debug.Log("Target hit");
                     target.ReactToHit();
+                    Messenger.Broadcast(GameEvent.ENEMY_HIT);
                 } else {
                     StartCoroutine(SphereIndicator(hit.point));
                 }
